@@ -48,13 +48,17 @@ Para usar o comando `php artisan`, você precisa ter um ambiente de desenvolvime
   ```bash
   php artisan key:generate
   ```
-  
+
 9. Inicie o servidor de desenvolvimento:
   ```bash
   php artisan serve
   ```
 
 O servidor de desenvolvimento roda por padrão na URL `http://localhost:8000`.
+
+## Testando a API
+
+Para testar as requisições da API, recomendamos o uso do [Postman](https://www.postman.com/). O Postman é uma ferramenta poderosa para testar e desenvolver APIs.
 
 ## Contribuição
 
