@@ -12,7 +12,7 @@ use Tymon\JWTAuth\Exceptions\JWTException;
 
 /**
  * @OA\Tag(
- *     name="Autenticação",
+ *     name="Authentication",
  *     description="Endpoints para autenticação JWT"
  * )
  */

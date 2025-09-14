@@ -12,6 +12,13 @@ use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 
+
+/**
+ * @OA\Tag(
+ *     name="Users",
+ *     description="Endpoints relacionados aos usuários"
+ * )
+ */
 class UserController extends Controller
 {
     /**
