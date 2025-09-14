@@ -12,7 +12,7 @@
         "/api/auth/register": {
             "post": {
                 "tags": [
-                    "Autenticação"
+                    "Auth"
                 ],
                 "summary": "Registro de usuário",
                 "description": "Registra um novo usuário e retorna um token JWT",
@@ -111,7 +111,7 @@
         "/api/auth/login": {
             "post": {
                 "tags": [
-                    "Autenticação"
+                    "Auth"
                 ],
                 "summary": "Login do usuário",
                 "description": "Autentica um usuário e retorna um token JWT",
@@ -211,7 +211,7 @@
         "/api/auth/me": {
             "get": {
                 "tags": [
-                    "Autenticação"
+                    "Auth"
                 ],
                 "summary": "Obter usuário autenticado",
                 "description": "Retorna os dados do usuário autenticado",
@@ -254,7 +254,7 @@
         "/api/auth/logout": {
             "post": {
                 "tags": [
-                    "Autenticação"
+                    "Auth"
                 ],
                 "summary": "Logout do usuário",
                 "description": "Invalida o token JWT do usuário",
@@ -303,7 +303,7 @@
         "/api/auth/refresh": {
             "post": {
                 "tags": [
-                    "Autenticação"
+                    "Auth"
                 ],
                 "summary": "Renovar token JWT",
                 "description": "Renova o token JWT do usuário",
@@ -363,7 +363,7 @@
         "/api/users": {
             "get": {
                 "tags": [
-                    "Usuários"
+                    "Users"
                 ],
                 "summary": "Listar usuários",
                 "description": "Retorna uma lista de todos os usuários cadastrados",
@@ -420,7 +420,7 @@
             },
             "post": {
                 "tags": [
-                    "Usuários"
+                    "Users"
                 ],
                 "summary": "Criar usuário",
                 "description": "Cria um novo usuário no sistema",
@@ -520,7 +520,7 @@
         "/api/users/{id}": {
             "get": {
                 "tags": [
-                    "Usuários"
+                    "Users"
                 ],
                 "summary": "Obter usuário",
                 "description": "Retorna os dados de um usuário específico",
@@ -590,7 +590,7 @@
             },
             "put": {
                 "tags": [
-                    "Usuários"
+                    "Users"
                 ],
                 "summary": "Atualizar usuário",
                 "description": "Atualiza os dados de um usuário existente",
@@ -714,7 +714,7 @@
             },
             "delete": {
                 "tags": [
-                    "Usuários"
+                    "Users"
                 ],
                 "summary": "Deletar usuário",
                 "description": "Remove um usuário do sistema",
@@ -836,12 +836,12 @@
     },
     "tags": [
         {
-            "name": "Autenticação",
-            "description": "Endpoints para autenticação JWT"
+            "name": "Auth",
+            "description": "Endpoints para Autenticação JWT"
         },
         {
-            "name": "Usuários",
-            "description": "Usuários"
+            "name": "Users",
+            "description": "Endpoints para Gerenciamento de Usuários"
         }
     ]
 }
