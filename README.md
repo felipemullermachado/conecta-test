@@ -20,12 +20,12 @@ Para usar o comando `php artisan`, você precisa ter um ambiente de desenvolvime
 
 1. Clone o repositório do projeto:
   ```bash
-  git clone https://github.com/seu-usuario/user-api.git
+  git clone https://github.com/felipemullermachado/conecta-test.git
   ```
 
 2. Navegue até o diretório do projeto:
   ```bash
-  cd user-api
+  cd conecta-test
   ```
 
 3. Instale as dependências do Composer:
