@@ -89,7 +89,7 @@ class AuthController extends Controller
             'message' => 'User successfully registered',
             'access_token' => $token,
             'token_type' => 'bearer',
-            'expires_in' => auth('api')->factory()->getTTL() * 60,
+            'expires_in' => config('jwt.ttl') * 60,
             'user' => $user
         ], 201);
     }
@@ -243,7 +243,7 @@ class AuthController extends Controller
      */
     public function refresh()
     {
-        return $this->respondWithToken(auth('api')->refresh());
+        return $this->respondWithToken(JWTAuth::refresh());
     }
 
     /**
@@ -258,7 +258,7 @@ class AuthController extends Controller
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
-            'expires_in' => auth('api')->factory()->getTTL() * 60,
+            'expires_in' => config('jwt.ttl') * 60,
             'user' => auth('api')->user()
         ]);
     }
