@@ -141,7 +141,7 @@ class UserController extends Controller
      *         in="path",
      *         required=true,
      *         description="ID do usuário",
-     *         @OA\Schema(type="integer", example=1)
+     *         @OA\Schema(type="string", example="9d1e8c2a-4b3f-4d5e-8f7a-1b2c3d4e5f6g")
      *     ),
      *     @OA\Response(
      *         response=200,
@@ -162,10 +162,10 @@ class UserController extends Controller
      *     )
      * )
      *
-     * @param int $id
+     * @param string $id
      * @return JsonResponse
      */
-    public function show(int $id): JsonResponse
+    public function show(string $id): JsonResponse
     {
         try {
             $user = User::findOrFail($id);
@@ -203,7 +203,7 @@ class UserController extends Controller
      *         in="path",
      *         required=true,
      *         description="ID do usuário",
-     *         @OA\Schema(type="integer", example=1)
+     *         @OA\Schema(type="string", example="9d1e8c2a-4b3f-4d5e-8f7a-1b2c3d4e5f6g")
      *     ),
      *     @OA\RequestBody(
      *         required=true,
@@ -243,10 +243,10 @@ class UserController extends Controller
      * )
      *
      * @param UpdateUserRequest $request
-     * @param int $id
+     * @param string $id
      * @return JsonResponse
      */
-    public function update(UpdateUserRequest $request, int $id): JsonResponse
+    public function update(UpdateUserRequest $request, string $id): JsonResponse
     {
         try {
             $user = User::findOrFail($id);
@@ -300,7 +300,7 @@ class UserController extends Controller
      *         in="path",
      *         required=true,
      *         description="ID do usuário",
-     *         @OA\Schema(type="integer", example=1)
+     *         @OA\Schema(type="string", example="9d1e8c2a-4b3f-4d5e-8f7a-1b2c3d4e5f6g")
      *     ),
      *     @OA\Response(
      *         response=200,
@@ -320,10 +320,10 @@ class UserController extends Controller
      *     )
      * )
      *
-     * @param int $id
+     * @param string $id
      * @return JsonResponse
      */
-    public function destroy(int $id): JsonResponse
+    public function destroy(string $id): JsonResponse
     {
         try {
             $user = User::findOrFail($id);

@@ -40,8 +40,8 @@ class AuthController extends Controller
      *             required={"name", "email", "password", "password_confirmation"},
      *             @OA\Property(property="name", type="string", example="João Silva"),
      *             @OA\Property(property="email", type="string", format="email", example="joao@example.com"),
-     *             @OA\Property(property="password", type="string", format="password", example="password123"),
-     *             @OA\Property(property="password_confirmation", type="string", format="password", example="password123")
+     *             @OA\Property(property="password", type="string", format="password", example="Password123", description="Deve conter pelo menos uma letra minúscula, uma maiúscula e um número"),
+     *             @OA\Property(property="password_confirmation", type="string", format="password", example="Password123")
      *         )
      *     ),
      *     @OA\Response(
@@ -70,7 +70,9 @@ class AuthController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|confirmed',
+            'password' => 'required|string|min:6|confirmed|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/',
+        ], [
+            'password.regex' => 'A senha deve conter pelo menos uma letra minúscula, uma maiúscula e um número.'
         ]);
 
         if ($validator->fails()) {
