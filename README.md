@@ -1,69 +1,184 @@
 # User API
 
-API RESTful em PHP construída com o framework Laravel. Serve para criar, atualizar, deletar e listar todos os usuários. As informações são salvas em um banco de dados MySQL.
-Os endpoints retornam os dados em formato JSON e permitem operações GET, POST, PUT e DELETE para manipular os registros de usuário.
-Foram considerados aspectos como segurança, validação de entrada e tratamento de erros.
+API RESTful para gerenciamento de usuários com autenticação JWT desenvolvida em Laravel.
 
-## Requisitos
+## 📋 Pré-requisitos
 
-Para usar o comando `php artisan`, você precisa ter um ambiente de desenvolvimento configurado com os seguintes requisitos:
+Antes de começar, certifique-se de ter instalado em sua máquina:
 
-- **PHP**: Certifique-se de que o PHP está instalado e funcionando corretamente na sua máquina.
-- **Composer**: O Composer é necessário para gerenciar as dependências do Laravel. Você pode instalá-lo seguindo as instruções no [site oficial do Composer](https://getcomposer.org/).
-- **MySQL**: Banco de dados utilizados para armazenar as informações do usuário.[site oficial do MySQL](https://www.mysql.com/).
+- **PHP** >= 8.1
+- **Composer** (gerenciador de dependências PHP)
+- **MySQL** >= 8.0 ou **PostgreSQL** >= 13
+- **Git**
+- **Node.js** >= 16 (opcional, para assets frontend)
 
-- **Servidor de Desenvolvimento**:
-É necessário utilizar um servidor de desenvolvimento como o Apache (httpd).
-- **Apache (httpd)**: Certifique-se de que o Apache está instalado e configurado corretamente na sua máquina. Você pode seguir as instruções no [site oficial do Apache](https://httpd.apache.org/).
+## 🚀 Configuração do Ambiente de Desenvolvimento
 
-## Instruções de Uso
+### 1. Clone o Repositório
 
-1. Clone o repositório do projeto:
-  ```bash
-  git clone https://github.com/felipemullermachado/conecta-test.git
-  ```
+```bash
+git clone <url-do-repositorio>
+cd conecta-test
+```
 
-2. Navegue até o diretório do projeto:
-  ```bash
-  cd conecta-test
-  ```
+### 2. Instale as Dependências
 
-3. Instale as dependências do Composer:
-  ```bash
-  composer install
-  ```
+```bash
+# Dependências PHP
+composer install
 
-4. Copie o arquivo `.env.example` para `.env` e configure suas variáveis de ambiente:
-  ```bash
-  cp .env.example .env
-  ```
+# Dependências Node.js (opcional)
+npm install
+```
 
-5. Configure o servidor Apache e MySQL. Certifique-se de que ambos estão rodando.
+### 3. Configuração do Ambiente
 
-6. Crie um banco de dados MySQL para a aplicação.
+```bash
+# Copie o arquivo de configuração
+cp .env.example .env
 
-7. Atualize o arquivo `.env` com as informações do banco de dados criado.
+# Gere a chave da aplicação
+php artisan key:generate
 
-8. Gere a chave da aplicação:
-  ```bash
-  php artisan key:generate
-  ```
+# Gere a chave secreta JWT
+php artisan jwt:secret
+```
 
-9. Inicie o servidor de desenvolvimento:
-  ```bash
-  php artisan serve
-  ```
+### 4. Configuração do Banco de Dados
 
-O servidor de desenvolvimento roda por padrão na URL `http://localhost:8000`.
+Edite o arquivo `.env` com as configurações do seu banco de dados:
 
-## Testando a API
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=conecta_test
+DB_USERNAME=seu_usuario
+DB_PASSWORD=sua_senha
+```
 
-Para testar as requisições da API, recomendamos o uso do [Postman](https://www.postman.com/). O Postman é uma ferramenta poderosa para testar e desenvolver APIs.
+### 5. Execute as Migrações
 
-## Contribuição
+```bash
+# Criar o banco de dados (se necessário)
+php artisan migrate
 
-Se você deseja contribuir com este projeto, por favor, faça um fork do repositório e envie um pull request com suas alterações.
+# Opcional: Popular com dados de teste
+php artisan db:seed
+```
 
-## Licença
+### 6. Inicie o Servidor de Desenvolvimento
 
-Este projeto está licenciado sob a [MIT License](LICENSE).
+```bash
+php artisan serve
+```
+
+A API estará disponível em: `http://127.0.0.1:8000`
+
+## 📚 Documentação da API
+
+A documentação interativa da API está disponível em:
+
+- **Swagger UI**: `http://127.0.0.1:8000/api/documentation`
+
+## 🔐 Endpoints de Autenticação
+
+| Método | Endpoint | Descrição |
+|--------|----------|----------|
+| POST | `/api/auth/register` | Cadastro de usuário |
+| POST | `/api/auth/login` | Login do usuário |
+| POST | `/api/auth/refresh` | Renovar token JWT |
+| POST | `/api/auth/logout` | Logout do usuário |
+| GET | `/api/auth/me` | Dados do usuário autenticado |
+
+## 👥 Endpoints de Usuários
+
+| Método | Endpoint | Descrição |
+|--------|----------|----------|
+| GET | `/api/users` | Listar usuários |
+| GET | `/api/users/{id}` | Buscar usuário por ID |
+| PUT | `/api/users/{id}` | Atualizar usuário |
+| DELETE | `/api/users/{id}` | Deletar usuário |
+
+## 🔧 Configurações Importantes
+
+### JWT Configuration
+
+As configurações do JWT estão em `config/jwt.php`:
+
+- **TTL**: Tempo de vida do token (padrão: 60 minutos)
+- **Refresh TTL**: Tempo para renovação (padrão: 20160 minutos)
+- **Algorithm**: Algoritmo de criptografia (padrão: HS256)
+
+### CORS
+
+Para desenvolvimento frontend, configure o CORS em `config/cors.php` se necessário.
+
+## 🧪 Testes
+
+```bash
+# Executar todos os testes
+php artisan test
+
+# Executar testes específicos
+php artisan test --filter=AuthTest
+```
+
+## 📦 Estrutura do Projeto
+
+```
+app/
+├── Http/
+│   ├── Controllers/
+│   │   ├── AuthController.php    # Autenticação JWT
+│   │   └── UserController.php    # CRUD de usuários
+│   ├── Middleware/
+│   └── Requests/
+├── Models/
+│   └── User.php                  # Model do usuário
+config/
+├── jwt.php                       # Configurações JWT
+└── auth.php                      # Configurações de autenticação
+routes/
+└── api.php                       # Rotas da API
+```
+
+## 🔍 Solução de Problemas
+
+### Erro: "JWT secret not set"
+```bash
+php artisan jwt:secret
+```
+
+### Erro: "Database connection failed"
+- Verifique as configurações no arquivo `.env`
+- Certifique-se de que o banco de dados está rodando
+- Teste a conexão: `php artisan migrate:status`
+
+### Erro: "Class not found"
+```bash
+composer dump-autoload
+```
+
+## 🤝 Contribuição
+
+1. Faça um fork do projeto
+2. Crie uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
+3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
+4. Push para a branch (`git push origin feature/AmazingFeature`)
+5. Abra um Pull Request
+
+## 📄 Licença
+
+Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
+
+## 📞 Suporte
+
+Para dúvidas ou problemas:
+
+- Abra uma [issue](../../issues)
+- Entre em contato com a equipe de desenvolvimento
+
+---
+
+**Desenvolvido com ❤️ usando Laravel**
