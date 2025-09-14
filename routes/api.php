@@ -31,10 +31,7 @@ Route::middleware('auth:api')->group(function () {
         Route::post('refresh', [AuthController::class, 'refresh']);
     });
     
-    // Rota para obter informações do usuário autenticado
-    Route::get('/user', function (Request $request) {
-        return $request->user();
-    });
+
     
     // Rotas para gerenciamento de usuários (protegidas)
     Route::apiResource('users', UserController::class);
