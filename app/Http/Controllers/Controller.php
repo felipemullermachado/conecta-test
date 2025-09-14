@@ -12,14 +12,10 @@ use Illuminate\Routing\Controller as BaseController;
  *     version="1.0.0",
  *     description="API para gerenciamento de usuarios com autenticacao JWT",
  *     @OA\Contact(
- *         email="admin@example.com"
+ *         email="felipemullermachado@gmail.com"
  *     )
  * )
  * 
- * @OA\Server(
- *     url="http://127.0.0.1:8000",
- *     description="Servidor de desenvolvimento"
- * )
  * 
  * @OA\SecurityScheme(
  *     securityScheme="bearerAuth",
