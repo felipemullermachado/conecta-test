@@ -1,0 +1,31 @@
+/* CSS customizado para ocultar inputs do Swagger UI */
+
+/* Ocultar o input de download da URL da API */
+.download-url-input {
+    display: none !important;
+}
+
+/* Ocultar o input de filtro por tag */
+.operation-filter-input {
+    display: none !important;
+}
+
+/* Ocultar o container do input de download se necessário */
+.download-url-wrapper {
+    display: none !important;
+}
+
+/* Ocultar a seção de filtros se necessário */
+.filter-container {
+    display: none !important;
+}
+
+/* Ocultar qualquer input relacionado a filtros */
+input[placeholder*="Filter"] {
+    display: none !important;
+}
+
+/* Ocultar inputs de URL */
+input[value*="api-docs.json"] {
+    display: none !important;
+}
