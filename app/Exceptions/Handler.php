@@ -7,6 +7,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Auth\AuthenticationException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Throwable;
@@ -60,6 +61,14 @@ class Handler extends ExceptionHandler
      */
     private function handleApiException(Request $request, Throwable $e): JsonResponse
     {
+        if ($e instanceof AuthenticationException) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Token de autenticação necessário. Faça login para acessar este recurso.',
+                'error' => 'Unauthenticated'
+            ], 401);
+        }
+
         if ($e instanceof ValidationException) {
             return response()->json([
                 'success' => false,
