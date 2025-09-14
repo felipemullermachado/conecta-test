@@ -10,7 +10,6 @@ Antes de começar, certifique-se de ter instalado em sua máquina:
 - **Composer** (gerenciador de dependências PHP)
 - **MySQL** >= 8.0 ou **PostgreSQL** >= 13
 - **Git**
-- **Node.js** >= 16 (opcional, para assets frontend)
 
 ## 🚀 Configuração do Ambiente de Desenvolvimento
 
@@ -27,8 +26,6 @@ cd conecta-test
 # Dependências PHP
 composer install
 
-# Dependências Node.js (opcional)
-npm install
 ```
 
 ### 3. Configuração do Ambiente
