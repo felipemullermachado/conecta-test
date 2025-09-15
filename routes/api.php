@@ -17,8 +17,10 @@ use Illuminate\Support\Facades\Route;
 
 // Rotas públicas de autenticação JWT
 Route::prefix('auth')->group(function () {
-    Route::post('register', [AuthController::class, 'register']);
-    Route::post('login', [AuthController::class, 'login']);
+    Route::post('register', [AuthController::class, 'register'])
+        ->middleware('throttle:3,1'); // 3 tentativas por minuto
+    Route::post('login', [AuthController::class, 'login'])
+        ->middleware('throttle:5,1'); // 5 tentativas por minuto
 });
 
 // Rotas protegidas por autenticação JWT
