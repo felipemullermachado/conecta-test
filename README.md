@@ -90,14 +90,24 @@ A documentação interativa da API está disponível em:
 
 ## 👥 Endpoints de Usuários
 
-| Método | Endpoint | Descrição |
-|--------|----------|----------|
-| GET | `/api/users` | Listar usuários |
-| GET | `/api/users/{id}` | Buscar usuário por ID |
-| PUT | `/api/users/{id}` | Atualizar usuário |
-| DELETE | `/api/users/{id}` | Deletar usuário |
+**⚠️ Nota**: Todos os endpoints de usuários requerem autenticação JWT e permissões de administrador.
+
+| Método | Endpoint | Descrição | Permissão |
+|--------|----------|----------|----------|
+| GET | `/api/users` | Listar usuários | Admin |
+| POST | `/api/users` | Criar usuário | Admin |
+| GET | `/api/users/{id}` | Buscar usuário por ID | Admin ou próprio usuário |
+| PUT | `/api/users/{id}` | Atualizar usuário | Admin ou próprio usuário |
+| DELETE | `/api/users/{id}` | Deletar usuário | Admin ou próprio usuário |
 
 ## 🔧 Configurações Importantes
+
+### Sistema de Autorização
+
+A API implementa um sistema de roles para controle de acesso:
+
+- **Admin**: Acesso completo a todos os recursos
+- **User**: Acesso limitado aos próprios dados
 
 ### JWT Configuration
 
@@ -110,6 +120,14 @@ As configurações do JWT estão em `config/jwt.php`:
 ### CORS
 
 Para desenvolvimento frontend, configure o CORS em `config/cors.php` se necessário.
+
+### Usuário Administrador Padrão
+
+Após executar as migrações e seeders, um usuário administrador será criado:
+
+- **Email**: admin@example.com
+- **Senha**: password
+- **Role**: admin
 
 ## 🧪 Testes
 
@@ -130,12 +148,21 @@ app/
 │   │   ├── AuthController.php    # Autenticação JWT
 │   │   └── UserController.php    # CRUD de usuários
 │   ├── Middleware/
-│   └── Requests/
+│   ├── Requests/
+│   │   ├── StoreUserRequest.php  # Validação para criação
+│   │   └── UpdateUserRequest.php # Validação para atualização
+│   └── Policies/
+│       └── UserPolicy.php        # Políticas de autorização
 ├── Models/
-│   └── User.php                  # Model do usuário
+│   └── User.php                  # Model do usuário com roles
 config/
 ├── jwt.php                       # Configurações JWT
 └── auth.php                      # Configurações de autenticação
+database/
+├── migrations/
+│   └── add_role_to_users_table.php # Migração para roles
+└── seeders/
+    └── AdminUserSeeder.php       # Seeder do admin
 routes/
 └── api.php                       # Rotas da API
 ```
@@ -157,6 +184,15 @@ php artisan jwt:secret
 composer dump-autoload
 ```
 
+### Erro: "Você não tem permissão para realizar esta ação"
+- Verifique se o usuário possui role de admin
+- Para operações em usuários específicos, certifique-se de que é o próprio usuário ou um admin
+
+### Erro: "Não autenticado"
+- Verifique se o token JWT está sendo enviado no header Authorization
+- Formato: `Authorization: Bearer {seu-token-jwt}`
+- Verifique se o token não expirou
+
 ## 🤝 Contribuição
 
 1. Faça um fork do projeto
@@ -164,17 +200,6 @@ composer dump-autoload
 3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
 4. Push para a branch (`git push origin feature/AmazingFeature`)
 5. Abra um Pull Request
-
-## 📄 Licença
-
-Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
-
-## 📞 Suporte
-
-Para dúvidas ou problemas:
-
-- Abra uma [issue](../../issues)
-- Entre em contato com a equipe de desenvolvimento
 
 ---
 
