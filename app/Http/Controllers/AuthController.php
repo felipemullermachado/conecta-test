@@ -47,7 +47,7 @@ class AuthController extends Controller
      *         response=201,
      *         description="Usuário registrado com sucesso",
      *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string", example="User successfully registered"),
+     *             @OA\Property(property="message", type="string", example="Usuário registrado com sucesso"),
      *             @OA\Property(property="access_token", type="string", example="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9..."),
      *             @OA\Property(property="token_type", type="string", example="bearer"),
      *             @OA\Property(property="expires_in", type="integer", example=3600),
@@ -58,7 +58,7 @@ class AuthController extends Controller
      *         response=422,
      *         description="Dados de entrada inválidos",
      *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string", example="The given data was invalid."),
+     *             @OA\Property(property="message", type="string", example="Dados de entrada inválidos"),
      *             @OA\Property(property="errors", type="object")
      *         )
      *     )
@@ -87,7 +87,7 @@ class AuthController extends Controller
         $token = JWTAuth::fromUser($user);
 
         return response()->json([
-            'message' => 'User successfully registered',
+            'message' => 'Usuário registrado com sucesso',
             'access_token' => $token,
             'token_type' => 'bearer',
             'expires_in' => config('jwt.ttl') * 60,
@@ -123,7 +123,7 @@ class AuthController extends Controller
      *         response=401,
      *         description="Credenciais inválidas",
      *         @OA\JsonContent(
-     *             @OA\Property(property="error", type="string", example="Unauthorized")
+     *             @OA\Property(property="error", type="string", example="Não autorizado")
      *         )
      *     ),
      *     @OA\Response(
@@ -151,10 +151,10 @@ class AuthController extends Controller
 
         try {
             if (!$token = JWTAuth::attempt($credentials)) {
-                return response()->json(['error' => 'Unauthorized'], 401);
+                return response()->json(['error' => 'Não autorizado'], 401);
             }
         } catch (JWTException $e) {
-            return response()->json(['error' => 'Could not create token'], 500);
+            return response()->json(['error' => 'Não foi possível criar o token'], 500);
         }
 
         return $this->respondWithToken($token);
@@ -176,7 +176,7 @@ class AuthController extends Controller
      *         response=401,
      *         description="Token inválido ou expirado",
      *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *             @OA\Property(property="message", type="string", example="Não autenticado")
      *         )
      *     )
      * )
@@ -197,14 +197,14 @@ class AuthController extends Controller
      *         response=200,
      *         description="Logout realizado com sucesso",
      *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string", example="Successfully logged out")
+     *             @OA\Property(property="message", type="string", example="Logout realizado com sucesso")
      *         )
      *     ),
      *     @OA\Response(
      *         response=401,
      *         description="Token inválido ou expirado",
      *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *             @OA\Property(property="message", type="string", example="Não autenticado")
      *         )
      *     )
      * )
@@ -213,7 +213,7 @@ class AuthController extends Controller
     {
         auth('api')->logout();
 
-        return response()->json(['message' => 'Successfully logged out']);
+        return response()->json(['message' => 'Logout realizado com sucesso']);
     }
 
     /**
@@ -237,7 +237,7 @@ class AuthController extends Controller
      *         response=401,
      *         description="Token inválido ou expirado",
      *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *             @OA\Property(property="message", type="string", example="Não autenticado")
      *         )
      *     )
      * )
@@ -260,7 +260,7 @@ class AuthController extends Controller
             'access_token' => $token,
             'token_type' => 'bearer',
             'expires_in' => config('jwt.ttl') * 60,
-            'user' => auth('api')->user()
+            'user' => JWTAuth::user()
         ]);
     }
 }

@@ -40,7 +40,7 @@ class UserController extends Controller
      *         response=401,
      *         description="Token inválido ou expirado",
      *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *             @OA\Property(property="message", type="string", example="Não autenticado")
      *         )
      *     )
      * )
@@ -50,6 +50,8 @@ class UserController extends Controller
     public function index(): JsonResponse
     {
         try {
+            $this->authorize('viewAny', User::class);
+            
             $users = User::all();
             
             return response()->json([
@@ -57,6 +59,11 @@ class UserController extends Controller
                 'message' => 'Usuários listados com sucesso',
                 'data' => $users
             ], 200);
+        } catch (\Illuminate\Auth\Access\AuthorizationException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], 403);
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
@@ -111,6 +118,8 @@ class UserController extends Controller
     public function store(StoreUserRequest $request): JsonResponse
     {
         try {
+            $this->authorize('create', User::class);
+            
             $user = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
@@ -122,6 +131,11 @@ class UserController extends Controller
                 'message' => 'Usuário criado com sucesso',
                 'data' => $user
             ], 201);
+        } catch (\Illuminate\Auth\Access\AuthorizationException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], 403);
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
@@ -173,6 +187,7 @@ class UserController extends Controller
     {
         try {
             $user = User::findOrFail($id);
+            $this->authorize('view', $user);
             
             return response()->json([
                 'success' => true,
@@ -184,6 +199,11 @@ class UserController extends Controller
                 'success' => false,
                 'message' => 'Usuário não encontrado'
             ], 404);
+        } catch (\Illuminate\Auth\Access\AuthorizationException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], 403);
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
@@ -254,6 +274,7 @@ class UserController extends Controller
     {
         try {
             $user = User::findOrFail($id);
+            $this->authorize('update', $user);
 
             $updateData = [];
             
@@ -281,6 +302,11 @@ class UserController extends Controller
                 'success' => false,
                 'message' => 'Usuário não encontrado'
             ], 404);
+        } catch (\Illuminate\Auth\Access\AuthorizationException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], 403);
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
@@ -331,6 +357,7 @@ class UserController extends Controller
     {
         try {
             $user = User::findOrFail($id);
+            $this->authorize('delete', $user);
             $user->delete();
 
             return response()->json([
@@ -342,6 +369,11 @@ class UserController extends Controller
                 'success' => false,
                 'message' => 'Usuário não encontrado'
             ], 404);
+        } catch (\Illuminate\Auth\Access\AuthorizationException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], 403);
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
